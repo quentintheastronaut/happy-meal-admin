@@ -64,6 +64,7 @@ const DishManagement: React.FC = (props: any) => {
 
   const showConfirm = (values: any) => {
     confirm({
+      maskClosable: true,
       title: 'Do you want to delete this dish ?',
       icon: (
         <Tooltip placement="top" title={'Warning'}>
@@ -101,6 +102,7 @@ const DishManagement: React.FC = (props: any) => {
       width: 1000,
       centered: true,
       title: values.name,
+      maskClosable: true,
       content: <UpdateForm form={updateFrom} values={values} />,
       okText: 'Update',
       onOk: () => {
@@ -118,6 +120,7 @@ const DishManagement: React.FC = (props: any) => {
       width: 1000,
       centered: true,
       title: values.name,
+      maskClosable: true,
       content: <UpdateForm form={createFrom} />,
       okText: 'Create',
       onOk: (close) => {
