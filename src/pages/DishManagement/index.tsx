@@ -19,6 +19,7 @@ import confirm from 'antd/lib/modal/confirm';
 import moment from 'moment';
 import { useDebounceValue } from '@ant-design/pro-components';
 import UpdateForm from './components/UpdateForm';
+import 'antd/dist/antd.css';
 
 interface DataType {
   key: React.Key;
