@@ -1,7 +1,5 @@
 import { Col, Form, Image, Input, InputNumber, Row } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
 import React, { useEffect } from 'react';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styles from './index.less';
 
@@ -71,9 +69,6 @@ const UpdateForm: React.FC = (props: any) => {
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
             <Input placeholder="Input name" />
           </Form.Item>
-          <Form.Item name="slug" label="Slug" rules={[{ required: true }]}>
-            <Input placeholder="Input slug" />
-          </Form.Item>
           <Row gutter={[16, 16]}>
             <Col span={12}>
               <Form.Item name="calories" label="Calories" rules={[{ required: true }]}>
@@ -98,15 +93,6 @@ const UpdateForm: React.FC = (props: any) => {
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item name="cookingTime" label="Cooking Time" rules={[{ required: true }]}>
-            <InputNumber addonAfter="min" placeholder="Input cooking time" />
-          </Form.Item>
-          <Form.Item name="description" label="Description" rules={[{ required: true }]}>
-            <TextArea />
-          </Form.Item>
-          <Form.Item name="recipe" label="Recipe" rules={[{ required: true }]}>
-            <ReactQuill theme="snow" />
-          </Form.Item>
         </Col>
       </Row>
     </Form>

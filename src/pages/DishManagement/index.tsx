@@ -107,14 +107,14 @@ const DishManagement: React.FC = (props: any) => {
       content: <UpdateForm form={updateFrom} values={values} />,
       okText: 'Update',
       onOk: (close) => {
-        return updateDish.validateFields().then((items) => {
+        return updateFrom.validateFields().then(async (items) => {
           const payload = {
             ...items,
             id: values.id,
           };
-          createDish(payload);
-          updateDish.resetFields();
-          close();
+          await updateDish(payload);
+          updateFrom.resetFields();
+          await close();
         });
       },
     });
@@ -129,14 +129,14 @@ const DishManagement: React.FC = (props: any) => {
       content: <UpdateForm form={createFrom} />,
       okText: 'Create',
       onOk: (close) => {
-        return createFrom.validateFields().then((items) => {
+        return createFrom.validateFields().then(async (items) => {
           const payload = {
             ...items,
             id: values.id,
           };
-          createDish(payload);
+          await createDish(payload);
           createFrom.resetFields();
-          close();
+          await close();
         });
       },
     });
@@ -155,18 +155,6 @@ const DishManagement: React.FC = (props: any) => {
     {
       title: 'Calories',
       dataIndex: 'calories',
-    },
-    {
-      title: 'Carbohydrates',
-      dataIndex: 'carbohydrates',
-    },
-    {
-      title: 'Protein',
-      dataIndex: 'protein',
-    },
-    {
-      title: 'Fat',
-      dataIndex: 'fat',
     },
     {
       title: 'Last updated',

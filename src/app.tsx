@@ -7,13 +7,6 @@ import 'antd/dist/antd.less';
 import './global.less';
 import styles from './styles.less';
 
-// import 'antd/lib/style/color/colorPalette.less';
-// import 'antd/dist/antd.less';
-// import 'antd/lib/style/themes/default.less';
-import './theme.less';
-// import 'antd/dist/antd.variable.min.css';
-
-/** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
   loading: <PageLoading />,
 };

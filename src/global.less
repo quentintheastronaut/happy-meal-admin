@@ -1,7 +1,6 @@
 @import '~antd/lib/style/color/colorPalette.less';
 @import '~antd/dist/antd.less';
 @import '~antd/lib/style/themes/default.less';
-@import 'theme.less'; // variables to override above
 
 html,
 body,
@@ -81,5 +80,20 @@ ol {
 @media screen and(-ms-high-contrast: active), (-ms-high-contrast: none) {
   body .ant-design-pro > .ant-layout {
     min-height: 100vh;
+  }
+}
+
+html {
+  .happy-meal-modal {
+    :global {
+      .ant-input,
+      .ant-input-affix-wrapper {
+        border-radius: 6px !important;
+      }
+
+      .ant-btn {
+        border-radius: 6px !important;
+      }
+    }
   }
 }

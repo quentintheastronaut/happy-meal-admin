@@ -14,33 +14,27 @@
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: '',
-    component: './Welcome',
-  },
-  {
     path: '/dashboard',
     name: 'dashboard',
-    icon: '',
+    icon: 'DashboardOutlined',
     component: './Dashboard',
   },
   {
     path: '/admin',
     name: 'Management',
-    icon: '',
+    icon: 'AppstoreOutlined',
     access: 'canAdmin',
     routes: [
       {
         path: '/admin/user',
         name: 'User',
-        icon: '',
+        icon: 'UserOutlined',
         component: './UserManagement',
       },
       {
         path: '/admin/group',
         name: 'Group',
-        icon: '',
+        icon: 'UsergroupAddOutlined',
         component: './GroupManagement',
       },
       {

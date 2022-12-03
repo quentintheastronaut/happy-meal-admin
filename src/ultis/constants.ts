@@ -4,7 +4,7 @@ export const API = {
   DISH: '/dish',
   USER: '/user',
   INGREDIENT: '/ingredient',
-  MEASUREMENT_TYPE: '/measurement-type',
+  MEASUREMENT_TYPE: '/measurement',
 };
 
 export const ORDER = {

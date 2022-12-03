@@ -130,7 +130,7 @@ const UpdateForm: React.FC = (props: any) => {
               {HEALTH_GOAL_LIST.map((item) => {
                 return (
                   <Option key={item.value} value={item.value}>
-                    {item.value}
+                    {item.label}
                   </Option>
                 );
               })}
