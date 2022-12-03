@@ -1,12 +1,37 @@
-@import '~antd/es/style/variable.less';
-@import '~tailwindcss/base.css';
-@import '~tailwindcss/components.css';
-@import '~tailwindcss/utilities.css';
+@import '~antd/lib/style/color/colorPalette.less';
+@import '~antd/dist/antd.less';
+@import '~antd/lib/style/themes/default.less';
+@import 'theme.less'; // variables to override above
 
 html,
 body,
 #root {
   height: 100%;
+
+  --ant-primary-color: #77d392 !important;
+  --ant-primary-color-hover: #77d392 !important;
+  --ant-primary-color-active: #77d392 !important;
+  --ant-primary-color-outline: #77d392 !important;
+  --ant-primary-color-deprecated-bg: #77d392 !important;
+  --ant-primary-color-deprecated-border: #77d392 !important;
+  --ant-error-color: #e75c51 !important;
+  --ant-error-color-hover: #e75c51 !important;
+  --ant-error-color-outline: #e75c51 !important;
+  --ant-error-color-active: #e75c51 !important;
+  --ant-error-color-deprecated-bg: #e75c51 !important;
+  --ant-error-color-deprecated-border: #e75c51 !important;
+  --ant-warning-color: #f09f44 !important;
+  --ant-warning-color-hover: #f09f44 !important;
+  --ant-warning-color-outline: #f09f44 !important;
+  --ant-warning-color-active: #f09f44 !important;
+  --ant-warning-color-deprecated-bg: #f09f44 !important;
+  --ant-warning-color-deprecated-border: #f09f44 !important;
+
+  :global {
+    .ant-btn {
+      border-radius: 6px !important;
+    }
+  }
 }
 
 .colorWeak {

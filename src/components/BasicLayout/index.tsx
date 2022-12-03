@@ -1,9 +1,21 @@
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, ConfigProvider } from 'antd';
 import React from 'react';
 import { Helmet } from 'umi';
+import 'antd/dist/antd.variable.min.css';
+import '@/global.less';
+
+type ThemeData = {
+  borderRadius: number;
+  colorPrimary: string;
+};
+
+const defaultData: ThemeData = {
+  borderRadius: 6,
+  colorPrimary: '#1677ff',
+};
 
 export const Header: React.FC = (props: any) => {
-    const {children} = props
+  const { children } = props;
   return (
     <div>
       <Breadcrumb>
@@ -17,7 +29,7 @@ export const Header: React.FC = (props: any) => {
 };
 
 export const Body = (props: any) => {
-    const { children } = props
+  const { children } = props;
   return <div>{children}</div>;
 };
 
@@ -32,13 +44,19 @@ const handleHelmet = (props: any) => {
 };
 
 const BasicLayout: React.FC = (props: any) => {
-    const { pageTitle, children, className, ...rest } = props
-    return (
-    <div className={`${className} ${rest}`}>
-    {pageTitle && handleHelmet({ pageTitle })}
-    {children}
-  </div>
-  )
+  const { pageTitle, children, className, ...rest } = props;
+  return (
+    <ConfigProvider
+      theme={{
+        token: { colorPrimary: defaultData.colorPrimary, borderRadius: defaultData.borderRadius },
+      }}
+    >
+      <div className={`${className} ${rest}`}>
+        {pageTitle && handleHelmet({ pageTitle })}
+        {children}
+      </div>
+    </ConfigProvider>
+  );
 };
 
-export default BasicLayout
+export default BasicLayout;

@@ -106,12 +106,16 @@ const DishManagement: React.FC = (props: any) => {
       maskClosable: true,
       content: <UpdateForm form={updateFrom} values={values} />,
       okText: 'Update',
-      onOk: () => {
-        const payload = {
-          ...updateFrom.getFieldsValue(),
-          id: values.id,
-        };
-        return updateDish(payload);
+      onOk: (close) => {
+        return updateDish.validateFields().then((items) => {
+          const payload = {
+            ...items,
+            id: values.id,
+          };
+          createDish(payload);
+          updateDish.resetFields();
+          close();
+        });
       },
     });
   };
@@ -242,7 +246,7 @@ const DishManagement: React.FC = (props: any) => {
                 dataSource={dishList}
                 onChange={handleChanges}
                 pagination={{
-                  defaultCurrent: 1,
+                  defaultCurrent: params.page,
                   total: pageCount,
                 }}
               />

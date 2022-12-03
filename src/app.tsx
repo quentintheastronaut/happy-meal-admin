@@ -3,6 +3,15 @@ import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from 'umi';
 import 'antd/dist/antd.css';
 import 'antd/dist/antd.min.css';
+import 'antd/dist/antd.less';
+import './global.less';
+import styles from './styles.less';
+
+// import 'antd/lib/style/color/colorPalette.less';
+// import 'antd/dist/antd.less';
+// import 'antd/lib/style/themes/default.less';
+import './theme.less';
+// import 'antd/dist/antd.variable.min.css';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -66,7 +75,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
         <>
-          {children}
+          <div className={styles.container}>{children}</div>
           {!props.location?.pathname?.includes('/login') && (
             <SettingDrawer disableUrlParams enableDarkTheme settings={initialState?.settings} />
           )}

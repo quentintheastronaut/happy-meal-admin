@@ -1,11 +1,11 @@
-import { createDish, deleteDish, queryDish, updateDish } from '@/services/dish';
+import { activateUser, createUser, deactivateUser, queryUser, updateUser } from '@/services/user';
 import { ORDER } from '@/ultis/constants';
 import { notification } from 'antd';
 
 export default {
-  namespace: 'dish',
+  namespace: 'user',
   state: {
-    dishList: [],
+    userList: [],
     params: {
       page: 1,
       limit: 10,
@@ -15,12 +15,12 @@ export default {
     pageCount: 0,
   },
   effects: {
-    *fetchDishList({ payload }, { call, put, select }) {
+    *fetchUserList({ payload }, { call, put, select }) {
       try {
-        const dish = yield select((state) => state.dish);
-        const response = yield call(queryDish, payload || dish.params);
+        const user = yield select((state) => state.user);
+        const response = yield call(queryUser, payload || user.params);
         yield put({
-          type: 'saveDishList',
+          type: 'saveUserList',
           payload: response?.data,
         });
         yield put({
@@ -34,17 +34,29 @@ export default {
     },
     *refresh(_, { put }) {
       try {
-        yield put({ type: 'fetchDishList' });
+        yield put({ type: 'fetchUserList' });
       } catch (error) {
         return false;
       }
       return true;
     },
 
-    *deleteDish({ payload }, { call, put }) {
+    *activateUser({ payload }, { call, put }) {
       try {
         if (!payload) return;
-        yield call(deleteDish, payload);
+        yield call(activateUser, payload);
+        notification.success({ message: 'Success' });
+        yield put({ type: 'refresh' });
+      } catch (error) {
+        notification.error({ message: error.message });
+        return false;
+      }
+      return true;
+    },
+    *deactivateUser({ payload }, { call, put }) {
+      try {
+        if (!payload) return;
+        yield call(deactivateUser, payload);
         notification.success({ message: 'Success' });
         yield put({ type: 'refresh' });
       } catch (error) {
@@ -54,10 +66,10 @@ export default {
       return true;
     },
 
-    *createDish({ payload }, { call, put }) {
+    *createUser({ payload }, { call, put }) {
       try {
         if (!payload) return;
-        yield call(createDish, payload);
+        yield call(createUser, payload);
         notification.success({ message: 'Success' });
         yield put({ type: 'refresh' });
       } catch (error) {
@@ -67,10 +79,10 @@ export default {
       return true;
     },
 
-    *updateDish({ payload }, { call, put }) {
+    *updateUser({ payload }, { call, put }) {
       try {
         if (!payload) return;
-        yield call(updateDish, payload);
+        yield call(updateUser, payload);
         notification.success({ message: 'Success' });
         yield put({ type: 'refresh' });
       } catch (error) {
@@ -92,8 +104,8 @@ export default {
     },
   },
   reducers: {
-    saveDishList(state, action) {
-      state.dishList = action.payload;
+    saveUserList(state, action) {
+      state.userList = action.payload;
       return state;
     },
     savePageCount(state, action) {

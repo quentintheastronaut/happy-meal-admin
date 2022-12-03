@@ -5,6 +5,7 @@ import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
+import theme from './theme';
 
 const { REACT_APP_ENV, API_URL } = process.env;
 
@@ -42,10 +43,9 @@ export default defineConfig({
   access: {},
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
-    // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
-    // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
-    // https://ant.design/docs/react/customize-theme-variable-cn
-    'root-entry-name': 'variable',
+    // 'primary-color': '#77d392',
+    'border-radius-sm': '6px',
+    'border-radius-base': '6px',
   },
   // esbuild is father build tools
   // https://umijs.org/plugins/plugin-esbuild
