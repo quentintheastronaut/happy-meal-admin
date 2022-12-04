@@ -14,7 +14,7 @@ const UpdateForm: React.FC = (props: any) => {
   useEffect(() => {
     form.setFieldsValue({
       ...values,
-      dob: moment(values?.dob),
+      dob: values?.dob ? moment(values?.dob) : moment(),
     });
   }, [values]);
 
@@ -101,9 +101,14 @@ const UpdateForm: React.FC = (props: any) => {
             </Col>
           </Row>
           <Row gutter={[16, 16]}>
-            <Col span={8}>
+            <Col span={12}>
               <Form.Item name="dob" label="Date of birth" rules={[{ required: true }]}>
                 <DatePicker format={timeFormat.DATE} />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="age" label="Age" rules={[{ required: true }]}>
+                <InputNumber addonAfter="years old" placeholder="Input age" />
               </Form.Item>
             </Col>
           </Row>

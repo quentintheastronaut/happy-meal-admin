@@ -1,5 +1,5 @@
 import { getProfile, signin } from '@/services/auth';
-import { setToken } from '@/ultis/authority';
+import { removeToken, setToken } from '@/ultis/authority';
 import jwt_decode from 'jwt-decode';
 import { history } from 'umi';
 
@@ -22,6 +22,16 @@ export default {
           payload: response && response.data.accessToken,
         });
         yield put(history.replace('/'));
+      } catch (error) {
+        return false;
+      }
+      return true;
+    },
+    *logout(_, { put }) {
+      console.log('check');
+      try {
+        removeToken();
+        yield put(history.replace('/login'));
       } catch (error) {
         return false;
       }

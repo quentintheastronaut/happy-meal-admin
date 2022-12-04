@@ -29,10 +29,6 @@ const errorHandler = async (error) => {
     });
     history.push('/errors/403');
     return response;
-    // Hot fix force user logout on OGeek
-    // window.g_app._store.dispatch({
-    //   type: 'user/logout',
-    // });
   }
   // 404 Not found
   if (status === 404) {

@@ -10,7 +10,7 @@ const Settings: LayoutSettings & {
   fixedHeader: false,
   fixSiderbar: true,
   pwa: false,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: 'https://cdn-icons-png.flaticon.com/512/2515/2515263.png',
   headerHeight: 48,
   navTheme: 'dark',
   // 拂晓蓝

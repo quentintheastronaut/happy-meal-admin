@@ -1,6 +1,6 @@
 ﻿export default [
   {
-    name: 'login',
+    name: 'Login',
     layout: false,
     path: '/login',
     hideInMenu: true,
@@ -12,7 +12,7 @@
   },
   {
     path: '/dashboard',
-    name: 'dashboard',
+    name: 'Dashboard',
     icon: 'DashboardOutlined',
     component: './Dashboard',
     exact: true,

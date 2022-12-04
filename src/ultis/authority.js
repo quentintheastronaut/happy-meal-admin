@@ -21,7 +21,6 @@ export function setAuthority(authority) {
   return localStorage.setItem('antd-pro-authority', JSON.stringify(proAuthority));
 }
 
-// TODO: Handle OGeek token here
 export function getToken() {
   return localStorage.getItem('token');
 }
@@ -30,12 +29,10 @@ export function setToken(token) {
   return localStorage.setItem('token', token);
 }
 
-/**
- * Get data of defined path
- *
- * @param {string} pathDefined
- * @return {object} {resource, action}
- */
+export function removeToken() {
+  return localStorage.removeItem('token');
+}
+
 function getAuthorityData(pathDefined) {
   const [resource, action] = pathDefined.split(':');
 
@@ -45,11 +42,6 @@ function getAuthorityData(pathDefined) {
   };
 }
 
-/**
- * @param {string} resource Resource we want to check if it authority
- * @param {string} role current user role
- * @return {boolean}
- */
 export function checkAuthority(neededResource, role) {
   const listPath = authorityResources[role];
   if (!listPath) {
