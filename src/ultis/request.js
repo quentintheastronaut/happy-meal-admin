@@ -16,9 +16,7 @@ const errorHandler = async (error) => {
   }
   // 401 Unauthorized
   if (status === 401) {
-    getDvaApp()._store.dispatch({
-      type: 'login/logout',
-    });
+    history.replace('/login');
     notification.error({
       message: `${body?.message || body?.error}`,
     });

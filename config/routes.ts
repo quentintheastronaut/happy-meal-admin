@@ -1,56 +1,53 @@
 ﻿export default [
   {
-    path: '/user',
+    name: 'login',
     layout: false,
-    routes: [
-      {
-        name: 'login',
-        path: '/user/login',
-        component: './user/Login',
-      },
-      {
-        component: './404',
-      },
-    ],
+    path: '/login',
+    hideInMenu: true,
+    component: './LoginPage',
+  },
+  {
+    path: '/',
+    redirect: '/dashboard',
   },
   {
     path: '/dashboard',
     name: 'dashboard',
     icon: 'DashboardOutlined',
     component: './Dashboard',
+    exact: true,
   },
   {
-    path: '/admin',
+    path: '/',
     name: 'Management',
     icon: 'AppstoreOutlined',
-    access: 'canAdmin',
     routes: [
       {
-        path: '/admin/user',
+        path: '/management/user',
         name: 'User',
         icon: 'UserOutlined',
         component: './UserManagement',
       },
       {
-        path: '/admin/group',
+        path: '/management/group',
         name: 'Group',
         icon: 'UsergroupAddOutlined',
         component: './GroupManagement',
       },
       {
-        path: '/admin/dish',
+        path: '/management/dish',
         name: 'Dish',
         icon: '',
         component: './DishManagement',
       },
       {
-        path: '/admin/ingredient',
+        path: '/management/ingredient',
         name: 'Ingredient',
         icon: '',
         component: './IngredientManagement',
       },
       {
-        path: '/admin/measurement-type',
+        path: '/management/measurement-type',
         name: 'Measurement Type',
         icon: '',
         component: './MeasurementType',
@@ -59,10 +56,6 @@
         component: './404',
       },
     ],
-  },
-  {
-    path: '/',
-    redirect: '/welcome',
   },
   {
     component: './404',

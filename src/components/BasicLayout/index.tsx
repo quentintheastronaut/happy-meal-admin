@@ -1,9 +1,10 @@
 import { Breadcrumb } from 'antd';
-import React from 'react';
-import { Helmet } from 'umi';
+import React, { useEffect } from 'react';
+import { connect, Helmet } from 'umi';
 import styles from './index.less';
 import 'antd/dist/antd.variable.min.css';
 import '@/global.less';
+import mapStateToProps from './mapStateToProps';
 
 export const Header: React.FC = (props: any) => {
   const { children } = props;
@@ -35,7 +36,11 @@ const handleHelmet = (props: any) => {
 };
 
 const BasicLayout: React.FC = (props: any) => {
-  const { pageTitle, children, className, ...rest } = props;
+  const { pageTitle, children, className, fetchProfile, ...rest } = props;
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
   return (
     <div className={`${className} ${rest} ${styles.basicLayout}`}>
       {pageTitle && handleHelmet({ pageTitle })}
@@ -44,4 +49,8 @@ const BasicLayout: React.FC = (props: any) => {
   );
 };
 
-export default BasicLayout;
+const mapDispatchToProps = (dispatch: any) => ({
+  fetchProfile: () => dispatch({ type: 'auth/fetchProfile' }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BasicLayout);

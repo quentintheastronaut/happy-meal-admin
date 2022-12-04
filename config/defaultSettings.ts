@@ -16,7 +16,6 @@ const Settings: LayoutSettings & {
   // 拂晓蓝
   colorWeak: false,
   title: 'Happy Meal',
-  iconfontUrl: '',
 };
 
 export default Settings;

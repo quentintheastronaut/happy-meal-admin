@@ -43,7 +43,7 @@ export default defineConfig({
   access: {},
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
-    // 'primary-color': '#77d392',
+    'primary-color': '#77d392',
     'border-radius-sm': '6px',
     'border-radius-base': '6px',
   },

@@ -5,6 +5,7 @@ export const API = {
   USER: '/user',
   INGREDIENT: '/ingredient',
   MEASUREMENT_TYPE: '/measurement',
+  AUTH: '/auth',
 };
 
 export const ORDER = {
