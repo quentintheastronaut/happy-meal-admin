@@ -28,6 +28,8 @@ export const USER_STATUS = {
   DEACTIVE: 'Deactive',
 };
 
+export const SEX_LIST = [SEX.MALE, SEX.FEMALE];
+
 export const ACTIVITY_INTENSITY = {
   SEDENTARY: {
     value: 'sedentary',
