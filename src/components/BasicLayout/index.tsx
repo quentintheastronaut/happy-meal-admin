@@ -36,10 +36,11 @@ const handleHelmet = (props: any) => {
 };
 
 const BasicLayout: React.FC = (props: any) => {
-  const { pageTitle, children, className, fetchProfile, ...rest } = props;
+  const { pageTitle, children, className, fetchMeasurementList, fetchProfile, ...rest } = props;
 
   useEffect(() => {
     fetchProfile();
+    fetchMeasurementList();
   }, []);
   return (
     <div className={`${className} ${rest} ${styles.basicLayout}`}>
@@ -51,6 +52,7 @@ const BasicLayout: React.FC = (props: any) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchProfile: () => dispatch({ type: 'auth/fetchProfile' }),
+  fetchMeasurementList: () => dispatch({ type: 'measurement/fetchMeasurementList' }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BasicLayout);

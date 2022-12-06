@@ -39,9 +39,9 @@ const UpdateForm: React.FC = (props: any) => {
     form.setFieldsValue({
       ...values,
       dob: values?.dob ? moment(values?.dob) : moment(),
-      imageUrl,
+      imageUrl: imageUrl || values?.imageUrl,
     });
-  }, [values, imageUrl]);
+  }, [values, form, imageUrl]);
 
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
     if (info.file.status === 'uploading') {
@@ -56,7 +56,6 @@ const UpdateForm: React.FC = (props: any) => {
       const imageRef = ref(storage, `/avatar/${imageFile?.name + v4()}`);
       await uploadBytes(imageRef, imageFile).then((response) => {
         setLoading(false);
-        console.log(response);
         notification.success({ message: 'Image Uploaded' });
         getDownloadURL(response.ref).then((downloadURL) => {
           setImageUrl(downloadURL);
@@ -67,7 +66,8 @@ const UpdateForm: React.FC = (props: any) => {
 
   const uploadProps: UploadProps = {
     beforeUpload: (file) => {
-      const isPNG = file.type === 'image/png';
+      const isPNG =
+        file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg';
       if (!isPNG) {
         message.error(`${file?.name} is not a png file`);
       }
@@ -188,7 +188,7 @@ const UpdateForm: React.FC = (props: any) => {
               name="healthGoal"
               label="Goal"
               rules={[{ required: true }]}
-              initialValue={HEALTH_GOAL_LIST[0]}
+              initialValue={HEALTH_GOAL_LIST[0].value}
             >
               <Select>
                 {HEALTH_GOAL_LIST.map((item) => {
@@ -204,7 +204,7 @@ const UpdateForm: React.FC = (props: any) => {
               name="activityIntensity"
               label="Activity intensity"
               rules={[{ required: true }]}
-              initialValue={ACTIVITY_INTENSITY_LIST[0]}
+              initialValue={ACTIVITY_INTENSITY_LIST[0].value}
             >
               <Select>
                 {ACTIVITY_INTENSITY_LIST.map((item) => {

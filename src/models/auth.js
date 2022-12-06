@@ -16,7 +16,6 @@ export default {
     *login({ payload }, { call, put }) {
       try {
         const response = yield call(signin, payload);
-        console.log(response);
         yield put({
           type: 'changeLoginStatus',
           payload: response && response.data.accessToken,
@@ -28,7 +27,6 @@ export default {
       return true;
     },
     *logout(_, { put }) {
-      console.log('check');
       try {
         removeToken();
         yield put(history.replace('/login'));
