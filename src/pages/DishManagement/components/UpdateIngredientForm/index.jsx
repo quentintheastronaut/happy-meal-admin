@@ -10,6 +10,7 @@ import {
   notification,
   Row,
   Select,
+  Spin,
   Upload,
 } from 'antd';
 import { UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload';
@@ -25,6 +26,7 @@ import mapStateToProps from './mapStateToProps';
 import measrement from '@/models/measrement';
 import { useDebounceValue } from '@ant-design/pro-components';
 import styles from './index.less';
+import { ORDER } from '@/ultis/constants';
 
 const { Option } = Select;
 
@@ -52,6 +54,8 @@ const UpdateIngredientForm = (props) => {
   useEffect(() => {
     saveParams({
       ...params,
+      order: ORDER.DESC,
+      limit: 50,
       search: debouncedValue,
     });
   }, [debouncedValue]);
@@ -69,23 +73,25 @@ const UpdateIngredientForm = (props) => {
       name="control-hooks"
       className={`${styles.updateIngredientFormContainer}`}
     >
-      {!isUpdate && (
-        <Form.Item name="ingredientId" label="Ingredient" rules={[{ required: true }]}>
-          <Select
-            showSearch
-            placeholder={'Select ingredient'}
-            defaultActiveFirstOption={false}
-            showArrow={false}
-            onSearch={handleSearch}
-            filterOption={false}
-            notFoundContent={null}
-            options={(ingredientList || []).map((item) => ({
-              value: item.id,
-              label: item.name,
-            }))}
-          />
-        </Form.Item>
-      )}
+      <Spin spinning={loadingFetchIngredientList || false}>
+        {!isUpdate && (
+          <Form.Item name="ingredientId" label="Ingredient" rules={[{ required: true }]}>
+            <Select
+              showSearch
+              placeholder={'Select ingredient'}
+              defaultActiveFirstOption={false}
+              showArrow={false}
+              onSearch={handleSearch}
+              filterOption={false}
+              notFoundContent={null}
+              options={(ingredientList || []).map((item) => ({
+                value: item.id,
+                label: item.name,
+              }))}
+            />
+          </Form.Item>
+        )}
+      </Spin>
       <Form.Item name="quantity" label="Quantity" rules={[{ required: true }]}>
         <InputNumber placeholder="Input quantity" />
       </Form.Item>
