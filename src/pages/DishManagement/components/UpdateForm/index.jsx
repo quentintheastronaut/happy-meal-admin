@@ -78,33 +78,26 @@ const UpdateForm = (props) => {
   }, [values]);
 
   const handleChange = async (info) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
+    // Get this url from response in real world.
+    const imageFile = info.file.originFileObj;
+
+    if (!imageFile) {
+      setLoading(false);
       return;
     }
-
-    console.log(storage);
-    console.log(ref);
-    console.log(info);
-
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      const imageFile = info.file.originFileObj;
+    const imageRef = ref(storage, `/images/${slug}/${imageFile?.name + v4()}`);
+    await uploadBytes(imageRef, imageFile).then((response) => {
+      console.log(response);
       setLoading(false);
-
-      if (!imageFile) return;
-      const imageRef = ref(storage, `/images/${slug}/${imageFile?.name + v4()}`);
-      await uploadBytes(imageRef, imageFile).then((response) => {
-        console.log(response);
-        notification.success({ message: 'Image Uploaded' });
-        getDownloadURL(response.ref).then((downloadURL) => {
-          setImageUrl(downloadURL);
-        });
+      notification.success({ message: 'Image Uploaded' });
+      getDownloadURL(response.ref).then((downloadURL) => {
+        setImageUrl(downloadURL);
       });
-    }
+    });
   };
 
   const uploadProps = {
+    action: '',
     beforeUpload: (file) => {
       const isValidImage =
         file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg';
