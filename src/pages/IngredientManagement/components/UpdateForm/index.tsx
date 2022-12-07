@@ -61,7 +61,6 @@ const UpdateForm: React.FC = (props: any) => {
     >
       <Row gutter={[16, 16]}>
         <Col span={6}>
-          <Image src={values?.imageUrl} style={{ width: '100%' }} />
           <Form.Item
             name="imageUrl"
             style={{
