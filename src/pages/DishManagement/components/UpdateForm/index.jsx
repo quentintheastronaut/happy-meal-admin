@@ -82,13 +82,15 @@ const UpdateForm = (props) => {
       setLoading(true);
       return;
     }
+
+    console.log(storage);
+    console.log(ref);
+    console.log(info);
+
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       const imageFile = info.file.originFileObj;
       setLoading(false);
-
-      console.log(storage);
-      console.log(ref);
 
       if (!imageFile) return;
       const imageRef = ref(storage, `/images/${slug}/${imageFile?.name + v4()}`);
@@ -109,7 +111,9 @@ const UpdateForm = (props) => {
       if (!isValidImage) {
         notification.error(`${file?.name} is invalid file. Only jpg, jpeg, png are available.`);
       }
-      return isValidImage || Upload.LIST_IGNORE;
+      console.log('before upload', file);
+      console.log('isValidImage', isValidImage);
+      return isValidImage;
     },
     onChange: (info) => {
       handleChange(info);
