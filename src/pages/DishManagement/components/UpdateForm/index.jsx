@@ -116,6 +116,7 @@ const UpdateForm = (props) => {
       return isValidImage;
     },
     onChange: (info) => {
+      console.log('info', info);
       handleChange(info);
     },
   };
