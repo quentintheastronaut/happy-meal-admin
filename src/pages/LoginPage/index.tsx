@@ -50,7 +50,7 @@ const LoginPage: React.FC = (props) => {
                 name="email"
                 rules={[{ required: true, message: 'Please input your username!' }]}
               >
-                <Input />
+                <Input placeholder="Input username" />
               </Form.Item>
 
               <Form.Item
@@ -58,7 +58,7 @@ const LoginPage: React.FC = (props) => {
                 name="password"
                 rules={[{ required: true, message: 'Please input your password!' }]}
               >
-                <Input.Password />
+                <Input.Password placeholder="Input password" />
               </Form.Item>
 
               <Form.Item name="remember" valuePropName="checked">

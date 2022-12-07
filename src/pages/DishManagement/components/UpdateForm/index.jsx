@@ -85,11 +85,14 @@ const UpdateForm = (props) => {
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       const imageFile = info.file.originFileObj;
+      setLoading(false);
+
+      console.log(storage);
+      console.log(ref);
 
       if (!imageFile) return;
       const imageRef = ref(storage, `/images/${slug}/${imageFile?.name + v4()}`);
       await uploadBytes(imageRef, imageFile).then((response) => {
-        setLoading(false);
         console.log(response);
         notification.success({ message: 'Image Uploaded' });
         getDownloadURL(response.ref).then((downloadURL) => {
@@ -317,7 +320,8 @@ const UpdateForm = (props) => {
               <TextArea rows={4} />
             </Form.Item>
             <Form.Item name="recipe" label="Recipe" rules={[{ required: true }]}>
-              <ReactQuill theme="snow" />
+              {/* <ReactQuill theme="snow" /> */}
+              <TextArea rows={4} />
             </Form.Item>
           </Col>
         </Row>

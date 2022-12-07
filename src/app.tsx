@@ -13,6 +13,7 @@ export const initialStateConfig = {
 };
 
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
+  //'Empty block statement' code smell
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
