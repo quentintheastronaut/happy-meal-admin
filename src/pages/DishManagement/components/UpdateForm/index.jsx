@@ -80,15 +80,15 @@ const UpdateForm = (props) => {
   const handleChange = async (info) => {
     // Get this url from response in real world.
     const imageFile = info.file.originFileObj;
+    setLoading(false);
 
     if (!imageFile) {
       setLoading(false);
       return;
     }
+
     const imageRef = ref(storage, `/images/${slug}/${imageFile?.name + v4()}`);
     await uploadBytes(imageRef, imageFile).then((response) => {
-      console.log(response);
-      setLoading(false);
       notification.success({ message: 'Image Uploaded' });
       getDownloadURL(response.ref).then((downloadURL) => {
         setImageUrl(downloadURL);
@@ -97,19 +97,16 @@ const UpdateForm = (props) => {
   };
 
   const uploadProps = {
-    action: '',
+    action: null,
     beforeUpload: (file) => {
       const isValidImage =
         file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg';
       if (!isValidImage) {
         notification.error(`${file?.name} is invalid file. Only jpg, jpeg, png are available.`);
       }
-      console.log('before upload', file);
-      console.log('isValidImage', isValidImage);
       return isValidImage;
     },
     onChange: (info) => {
-      console.log('info', info);
       handleChange(info);
     },
   };

@@ -20,29 +20,26 @@ const UpdateForm: React.FC = (props: any) => {
   }, [values, imageUrl]);
 
   const handleChange = async (info) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
+    // Get this url from response in real world.
+    const imageFile = info.file.originFileObj;
+
+    if (!imageFile) {
+      setLoading(false);
       return;
     }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      const imageFile = info.file.originFileObj;
-
-      if (!imageFile) return;
-      const imageRef = ref(storage, `/ingredients/${imageFile?.name + v4()}`);
-      await uploadBytes(imageRef, imageFile).then((response) => {
-        setLoading(false);
-        console.log(response);
-        notification.success({ message: 'Image Uploaded' });
-        getDownloadURL(response.ref).then((downloadURL) => {
-          setImageUrl(downloadURL);
-        });
+    const imageRef = ref(storage, `/ingredients/${imageFile?.name + v4()}`);
+    await uploadBytes(imageRef, imageFile).then((response) => {
+      setLoading(false);
+      notification.success({ message: 'Image Uploaded' });
+      getDownloadURL(response.ref).then((downloadURL) => {
+        setImageUrl(downloadURL);
       });
-    }
+    });
   };
 
   const uploadProps = {
-    beforeUpload: (file) => {
+    action: null,
+    beforeUpload: (file: any) => {
       const isValidImage =
         file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg';
       if (!isValidImage) {
@@ -50,7 +47,7 @@ const UpdateForm: React.FC = (props: any) => {
       }
       return isValidImage || Upload.LIST_IGNORE;
     },
-    onChange: (info) => {
+    onChange: (info: any) => {
       handleChange(info);
     },
   };

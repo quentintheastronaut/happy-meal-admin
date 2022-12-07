@@ -44,27 +44,24 @@ const UpdateForm: React.FC = (props: any) => {
   }, [values, form, imageUrl]);
 
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
-    if (info.file.status === 'uploading') {
+    const imageFile = info.file.originFileObj as RcFile;
+
+    if (!imageFile) {
       setLoading(true);
       return;
     }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      const imageFile = info.file.originFileObj as RcFile;
-
-      if (!imageFile) return;
-      const imageRef = ref(storage, `/avatar/${imageFile?.name + v4()}`);
-      await uploadBytes(imageRef, imageFile).then((response) => {
-        setLoading(false);
-        notification.success({ message: 'Image Uploaded' });
-        getDownloadURL(response.ref).then((downloadURL) => {
-          setImageUrl(downloadURL);
-        });
+    const imageRef = ref(storage, `/avatar/${imageFile?.name + v4()}`);
+    await uploadBytes(imageRef, imageFile).then((response) => {
+      setLoading(false);
+      notification.success({ message: 'Image Uploaded' });
+      getDownloadURL(response.ref).then((downloadURL) => {
+        setImageUrl(downloadURL);
       });
-    }
+    });
   };
 
   const uploadProps: UploadProps = {
+    action: null,
     beforeUpload: (file) => {
       const isPNG =
         file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg';
