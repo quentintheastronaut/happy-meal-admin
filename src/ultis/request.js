@@ -9,8 +9,6 @@ const errorHandler = async (error) => {
   const { status } = response;
   const { message } = body;
 
-  console.log(body);
-
   // 400 Bad request
   if (status === 400) {
     notification.error({
