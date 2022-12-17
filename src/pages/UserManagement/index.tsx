@@ -43,7 +43,6 @@ const UserManagement: React.FC = (props: any) => {
     pageCount,
     saveParams,
   } = props;
-  console.log('🚀 ~ file: index.tsx:46 ~ userList', userList);
 
   const [value, setValue] = useState<string>();
   const [createFrom] = Form.useForm();
@@ -175,15 +174,15 @@ const UserManagement: React.FC = (props: any) => {
     },
     {
       title: 'Name',
-      render: (record) => `${record.firstName} ${record.lastName}`,
+      render: (record) => `${record.account.firstName} ${record.account.lastName}`,
     },
     {
       title: 'Email',
-      dataIndex: 'email',
+      dataIndex: ['account', 'email'],
     },
     {
       title: 'Sex',
-      dataIndex: 'sex',
+      dataIndex: ['account', 'sex'],
       render: (sex) =>
         sex === SEX.MALE ? (
           <div>

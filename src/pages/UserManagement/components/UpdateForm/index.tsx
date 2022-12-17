@@ -38,30 +38,48 @@ const UpdateForm: React.FC = (props: any) => {
   useEffect(() => {
     form.setFieldsValue({
       ...values,
-      dob: values?.dob ? moment(values?.dob) : moment(),
-      imageUrl: imageUrl || values?.imageUrl,
+      ...values?.account,
+      dob: values?.account?.dob ? moment(values?.account?.dob) : moment(),
+      imageUrl: imageUrl || values?.account?.imageUrl,
     });
   }, [values, form, imageUrl]);
 
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
-    const imageFile = info.file.originFileObj as RcFile;
-
-    if (!imageFile) {
+    if (info.file.status === 'uploading') {
       setLoading(true);
       return;
     }
-    const imageRef = ref(storage, `/avatar/${imageFile?.name + v4()}`);
-    await uploadBytes(imageRef, imageFile).then((response) => {
-      setLoading(false);
-      notification.success({ message: 'Image Uploaded' });
-      getDownloadURL(response.ref).then((downloadURL) => {
-        setImageUrl(downloadURL);
+
+    if (info.file.status === 'done') {
+      const imageFile = info.file.originFileObj as RcFile;
+
+      if (!imageFile) {
+        setLoading(true);
+        return;
+      }
+      const imageRef = ref(storage, `/avatar/${imageFile?.name + v4()}`);
+      await uploadBytes(imageRef, imageFile).then((response) => {
+        setLoading(false);
+
+        getDownloadURL(response.ref).then((downloadURL) => {
+          setImageUrl(downloadURL);
+        });
       });
-    });
+      notification.success({ message: 'Image Uploaded' });
+    }
   };
 
   const uploadProps: UploadProps = {
-    action: null,
+    customRequest: (config) => {
+      if (config?.onSuccess) {
+        config.onSuccess?.(
+          {
+            state: 'done',
+          },
+          config?.file,
+        );
+      }
+    },
     beforeUpload: (file) => {
       const isPNG =
         file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg';
@@ -94,7 +112,6 @@ const UpdateForm: React.FC = (props: any) => {
               marginTop: '16px',
             }}
             label="Image"
-            rules={[{ required: true }]}
           >
             <Avatar size={222} src={`${imageUrl || values?.imageUrl}`} />
             <Upload {...uploadProps}>
@@ -132,11 +149,7 @@ const UpdateForm: React.FC = (props: any) => {
                   <DatePicker format={timeFormat.DATE} />
                 </Form.Item>
               </Col>
-              <Col span={12}>
-                <Form.Item name="age" label="Age" rules={[{ required: true }]}>
-                  <InputNumber addonAfter="years old" placeholder="Input age" />
-                </Form.Item>
-              </Col>
+              <Col span={12}></Col>
             </Row>
             <Form.Item
               name="sex"

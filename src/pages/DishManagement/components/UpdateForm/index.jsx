@@ -78,26 +78,41 @@ const UpdateForm = (props) => {
   }, [values]);
 
   const handleChange = async (info) => {
-    // Get this url from response in real world.
-    const imageFile = info.file.originFileObj;
-    setLoading(false);
-
-    if (!imageFile) {
-      setLoading(false);
+    if (info.file.status === 'uploading') {
+      setLoading(true);
       return;
     }
 
-    const imageRef = ref(storage, `/images/${slug}/${imageFile?.name + v4()}`);
-    await uploadBytes(imageRef, imageFile).then((response) => {
-      notification.success({ message: 'Image Uploaded' });
-      getDownloadURL(response.ref).then((downloadURL) => {
-        setImageUrl(downloadURL);
+    if (info.file.status === 'done') {
+      const imageFile = info.file.originFileObj;
+      setLoading(false);
+
+      if (!imageFile) {
+        setLoading(false);
+        return;
+      }
+
+      const imageRef = ref(storage, `/images/${slug}/${imageFile?.name + v4()}`);
+      await uploadBytes(imageRef, imageFile).then((response) => {
+        getDownloadURL(response.ref).then((downloadURL) => {
+          setImageUrl(downloadURL);
+        });
       });
-    });
+      notification.success({ message: 'Image Uploaded' });
+    }
   };
 
   const uploadProps = {
-    action: null,
+    customRequest: (config) => {
+      if (config?.onSuccess) {
+        config.onSuccess?.(
+          {
+            state: 'done',
+          },
+          config?.file,
+        );
+      }
+    },
     beforeUpload: (file) => {
       const isValidImage =
         file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg';
@@ -146,6 +161,7 @@ const UpdateForm = (props) => {
             ...items,
             dishId: values.id.toString(),
             ingredientId: items.ingredientId.toString(),
+            measurementTypeId: items.measurementTypeId.toString(),
           };
           await addIngredient(payload);
           createFrom.resetFields();
@@ -168,8 +184,9 @@ const UpdateForm = (props) => {
         return updateFrom.validateFields().then(async (items) => {
           const payload = {
             ...items,
-            dishId: record.dishId.toString(),
-            ingredientId: record.ingredient.id.toString(),
+            dishId: values.id.toString(),
+            ingredientId: record?.ingredient?.id?.toString(),
+            measurementTypeId: items?.measurementTypeId?.toString(),
           };
           await updateIngredient(payload);
           updateFrom.resetFields();
@@ -203,7 +220,7 @@ const UpdateForm = (props) => {
     },
     {
       title: 'Measurement Type',
-      dataIndex: 'measurementType',
+      dataIndex: ['measurementType', 'name'],
     },
     {
       title: 'Action',
@@ -256,7 +273,6 @@ const UpdateForm = (props) => {
                 marginTop: '16px',
               }}
               label="Image"
-              rules={[{ required: true }]}
             >
               <Image
                 style={{ width: '212px' }}
@@ -318,8 +334,10 @@ const UpdateForm = (props) => {
               {/* <ReactQuill theme="snow" /> */}
               <TextArea rows={4} />
             </Form.Item>
+            <p>Note: Please input slug name before upload image !</p>
           </Col>
         </Row>
+
         {isUpdate && (
           <div>
             <Row justify="space-between">

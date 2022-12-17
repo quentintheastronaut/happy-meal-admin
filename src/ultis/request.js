@@ -7,6 +7,9 @@ const errorHandler = async (error) => {
   const body = await error.response.json();
   const { response = {} } = error;
   const { status } = response;
+  const { message } = body;
+
+  console.log(body);
 
   // 400 Bad request
   if (status === 400) {
@@ -25,9 +28,8 @@ const errorHandler = async (error) => {
   if (status === 403) {
     notification.error({
       // message: `${body?.message || body?.error}`,
-      message: "You don't have permission to access this service !",
+      message: `${body?.message || body?.error}`,
     });
-    history.push('/errors/403');
     return response;
   }
   // 404 Not found

@@ -48,6 +48,7 @@ const UpdateIngredientForm = (props) => {
   useEffect(() => {
     form.setFieldsValue({
       ...values,
+      measurementTypeId: values?.measurementType?.id || measurementList[0].id,
     });
   }, [values]);
 
@@ -95,16 +96,11 @@ const UpdateIngredientForm = (props) => {
       <Form.Item name="quantity" label="Quantity" rules={[{ required: true }]}>
         <InputNumber placeholder="Input quantity" />
       </Form.Item>
-      <Form.Item
-        name="measurementType"
-        label="Measurement Type"
-        rules={[{ required: true }]}
-        initialValue={values?.measrementType || measurementList[0].name}
-      >
+      <Form.Item name="measurementTypeId" label="Measurement Type" rules={[{ required: true }]}>
         <Select>
           {measurementList.map((item) => {
             return (
-              <Option key={item.name} value={item.name}>
+              <Option key={item.name} value={item.id}>
                 <div style={{ textTransform: 'capitalize' }}>{item.name}</div>
               </Option>
             );

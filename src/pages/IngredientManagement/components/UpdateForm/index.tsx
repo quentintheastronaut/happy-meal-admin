@@ -20,25 +20,39 @@ const UpdateForm: React.FC = (props: any) => {
   }, [values, imageUrl]);
 
   const handleChange = async (info) => {
-    // Get this url from response in real world.
-    const imageFile = info.file.originFileObj;
-
-    if (!imageFile) {
-      setLoading(false);
+    if (info.file.status === 'uploading') {
+      setLoading(true);
       return;
     }
-    const imageRef = ref(storage, `/ingredients/${imageFile?.name + v4()}`);
-    await uploadBytes(imageRef, imageFile).then((response) => {
-      setLoading(false);
-      notification.success({ message: 'Image Uploaded' });
-      getDownloadURL(response.ref).then((downloadURL) => {
-        setImageUrl(downloadURL);
+    if (info.file.status === 'done') {
+      const imageFile = info.file.originFileObj;
+
+      if (!imageFile) {
+        setLoading(false);
+        return;
+      }
+      const imageRef = ref(storage, `/ingredients/${imageFile?.name + v4()}`);
+      await uploadBytes(imageRef, imageFile).then((response) => {
+        setLoading(false);
+        notification.success({ message: 'Image Uploaded' });
+        getDownloadURL(response.ref).then((downloadURL) => {
+          setImageUrl(downloadURL);
+        });
       });
-    });
+    }
   };
 
   const uploadProps = {
-    action: null,
+    customRequest: (config: any) => {
+      if (config?.onSuccess) {
+        config.onSuccess?.(
+          {
+            state: 'done',
+          },
+          config?.file,
+        );
+      }
+    },
     beforeUpload: (file: any) => {
       const isValidImage =
         file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg';
@@ -71,7 +85,6 @@ const UpdateForm: React.FC = (props: any) => {
               marginTop: '16px',
             }}
             label="Image"
-            rules={[{ required: true }]}
           >
             <Image
               style={{ width: '212px' }}

@@ -8,14 +8,7 @@
   },
   {
     path: '/',
-    redirect: '/dashboard',
-  },
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    icon: 'DashboardOutlined',
-    component: './Dashboard',
-    exact: true,
+    redirect: '/management/dish',
   },
   {
     path: '/',
