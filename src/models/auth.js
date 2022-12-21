@@ -1,5 +1,8 @@
 import { getProfile, signin } from '@/services/auth';
 import { removeToken, setToken } from '@/ultis/authority';
+import { ACCOUNT_ROLE } from '@/ultis/constants';
+import { message, notification } from 'antd';
+import jwtDecode from 'jwt-decode';
 import jwt_decode from 'jwt-decode';
 import { history } from 'umi';
 
@@ -16,11 +19,20 @@ export default {
     *login({ payload }, { call, put }) {
       try {
         const response = yield call(signin, payload);
-        yield put({
-          type: 'changeLoginStatus',
-          payload: response && response.data.accessToken,
-        });
-        yield put(history.replace('/'));
+        const decodedToken = jwtDecode(response?.data?.accessToken);
+        const { role } = decodedToken;
+        if (role === ACCOUNT_ROLE.ADMIN) {
+          console.log(role);
+          yield put({
+            type: 'changeLoginStatus',
+            payload: response && response.data.accessToken,
+          });
+          yield put(history.replace('/'));
+        } else {
+          notification.error({
+            message: 'This account is unauthorized !',
+          });
+        }
       } catch (error) {
         return false;
       }

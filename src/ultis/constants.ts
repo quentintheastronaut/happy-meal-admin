@@ -13,6 +13,11 @@ export const ORDER = {
   DESC: 'DESC',
 };
 
+export const ACCOUNT_ROLE = {
+  USER: 'user',
+  ADMIN: 'admin',
+};
+
 export const timeFormat = {
   FULL_TIME: 'DD/MM/YYYY HH:mm',
   DATE: 'DD/MM/YYYY',
