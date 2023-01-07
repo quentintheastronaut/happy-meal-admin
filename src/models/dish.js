@@ -114,6 +114,7 @@ export default {
       return true;
     },
 
+    // Ingredients
     *refreshIngredient(_, { put }) {
       try {
         yield put({ type: 'fetchIngredient' });

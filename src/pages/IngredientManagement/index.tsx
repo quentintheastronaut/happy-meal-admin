@@ -1,7 +1,7 @@
 import BasicLayout, { Body, Header } from '@/components/BasicLayout';
 import type { ColumnsType } from 'antd/es/table';
 import { ORDER, timeFormat } from '@/ultis/constants';
-import { Button, Col, Form, Input, Row, Spin, Table, Tooltip } from 'antd';
+import { Button, Col, Form, Input, Modal, Row, Spin, Table, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { connect } from 'umi';
@@ -15,7 +15,6 @@ import {
   ReloadOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import confirm from 'antd/lib/modal/confirm';
 import moment from 'moment';
 import { useDebounceValue } from '@ant-design/pro-components';
 import 'antd/dist/antd.css';
@@ -47,6 +46,9 @@ const IngredientManagement: React.FC = (props: any) => {
   const [updateFrom] = Form.useForm();
   const debouncedValue = useDebounceValue(value, 500);
 
+  const [modal, contextHolder] = Modal.useModal();
+  const [incompatibleModal, ingredientContextHolder] = Modal.useModal();
+
   const handelDelete = (id: string) => {
     const payload = { id };
     deleteIngredient(payload);
@@ -64,7 +66,7 @@ const IngredientManagement: React.FC = (props: any) => {
   );
 
   const showConfirm = (values: any) => {
-    confirm({
+    modal.confirm({
       maskClosable: true,
       title: 'Do you want to delete this ingredient ?',
       icon: (
@@ -99,12 +101,14 @@ const IngredientManagement: React.FC = (props: any) => {
   };
 
   const handleClickUpdate = (values: any) => {
-    confirm({
+    modal.confirm({
       width: 1000,
       centered: true,
       title: values.name,
       maskClosable: true,
-      content: <UpdateForm form={updateFrom} values={values} />,
+      content: (
+        <UpdateForm isUpdate={true} modal={incompatibleModal} form={updateFrom} values={values} />
+      ),
       okText: 'Update',
       onOk: (close) => {
         return updateFrom.validateFields().then(async (items) => {
@@ -121,12 +125,12 @@ const IngredientManagement: React.FC = (props: any) => {
   };
 
   const handleClickCreate = (values: any) => {
-    confirm({
+    modal.confirm({
       width: 1000,
       centered: true,
       title: values.name,
       maskClosable: true,
-      content: <UpdateForm form={createFrom} />,
+      content: <UpdateForm isUpdate={false} modal={incompatibleModal} form={createFrom} />,
       okText: 'Create',
       onOk: (close) => {
         return createFrom.validateFields().then(async (items) => {
@@ -235,6 +239,8 @@ const IngredientManagement: React.FC = (props: any) => {
                 }}
               />
             </div>
+            {contextHolder}
+            {ingredientContextHolder}
           </div>
         </Body>
       </BasicLayout>

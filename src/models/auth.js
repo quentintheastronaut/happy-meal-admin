@@ -22,7 +22,6 @@ export default {
         const decodedToken = jwtDecode(response?.data?.accessToken);
         const { role } = decodedToken;
         if (role === ACCOUNT_ROLE.ADMIN) {
-          console.log(role);
           yield put({
             type: 'changeLoginStatus',
             payload: response && response.data.accessToken,

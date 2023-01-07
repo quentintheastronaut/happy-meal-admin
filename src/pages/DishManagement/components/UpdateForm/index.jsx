@@ -72,7 +72,6 @@ const UpdateForm = (props) => {
       const payload = {
         id: values?.id,
       };
-      // fetchIngredient(payload);
       saveCurrentDishId(values.id);
     }
   }, [values]);
