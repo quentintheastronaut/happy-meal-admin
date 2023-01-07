@@ -6,6 +6,10 @@ export const API = {
   INGREDIENT: '/ingredient',
   MEASUREMENT_TYPE: '/measurement',
   AUTH: '/auth',
+  LOCATION: '/location',
+  INCOMPATIBLE: '/incompatible',
+  FOOD_CATEGORY: '/food-category',
+  INGREDIENT_CATEGORY: '/ingredient-category',
 };
 
 export const ORDER = {

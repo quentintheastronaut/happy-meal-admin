@@ -46,6 +46,24 @@
         component: './MeasurementType',
       },
       {
+        path: '/management/location',
+        name: 'Location',
+        icon: '',
+        component: './LocationManagement',
+      },
+      {
+        path: '/management/food-category',
+        name: 'Food Category',
+        icon: '',
+        component: './FoodCategory',
+      },
+      {
+        path: '/management/ingredient-category',
+        name: 'Ingredient Category',
+        icon: '',
+        component: './IngredientCategory',
+      },
+      {
         component: './404',
       },
     ],
