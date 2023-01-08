@@ -116,6 +116,7 @@ const DishManagement: React.FC = (props: any) => {
           const payload = {
             ...items,
             id: values.id,
+            foodCategoryId: items.foodCategoryId.toString(),
           };
           await updateDish(payload);
           updateFrom.resetFields();
@@ -139,6 +140,7 @@ const DishManagement: React.FC = (props: any) => {
           const payload = {
             ...items,
             id: values.id,
+            foodCategoryId: items.foodCategoryId.toString(),
           };
           await createDish(payload);
           createFrom.resetFields();

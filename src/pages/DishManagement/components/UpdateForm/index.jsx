@@ -22,6 +22,7 @@ import {
   Tooltip,
   Spin,
   Modal,
+  Select,
 } from 'antd';
 import { UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload';
 import TextArea from 'antd/lib/input/TextArea';
@@ -36,11 +37,13 @@ import { connect } from 'umi';
 import mapStateToProps from './mapStateToProps';
 import confirm from 'antd/lib/modal/confirm';
 import UpdateIngredientForm from '../UpdateIngredientForm';
+import { useDebounceValue } from '@ant-design/pro-components';
 
 const { Title } = Typography;
 
 const UpdateForm = (props) => {
   const {
+    saveParams,
     isUpdate,
     modal,
     values,
@@ -52,10 +55,15 @@ const UpdateForm = (props) => {
     removeIngredient,
     updateIngredient,
     addIngredient,
+    params,
+    loadingFetchFoodCategory,
+    foodCategoryList,
   } = props;
   const slug = Form.useWatch('slug', form);
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
+  const [value, setValue] = useState();
+  const debouncedValue = useDebounceValue(value, 500);
 
   const [createFrom] = Form.useForm();
   const [updateFrom] = Form.useForm();
@@ -64,8 +72,11 @@ const UpdateForm = (props) => {
     form.setFieldsValue({
       ...values,
       imageUrl: imageUrl || values?.imageUrl,
+      foodCategoryId: values?.foodCategory?.id || null,
     });
   }, [values, form, imageUrl]);
+
+  console.log(values);
 
   useEffect(() => {
     if (values) {
@@ -195,6 +206,19 @@ const UpdateForm = (props) => {
     });
   };
 
+  useEffect(() => {
+    saveParams({
+      ...params,
+      search: debouncedValue,
+    });
+  }, [debouncedValue]);
+
+  const handleSearch = (newValue) => {
+    if (newValue) {
+      setValue(newValue);
+    }
+  };
+
   const columns = [
     {
       dataIndex: ['ingredient', 'imageUrl'],
@@ -296,6 +320,21 @@ const UpdateForm = (props) => {
             <Form.Item name="name" label="Name" rules={[{ required: true }]}>
               <Input placeholder="Input name" />
             </Form.Item>
+            <Form.Item name="foodCategoryId" label="Category" rules={[{ required: true }]}>
+              <Select
+                showSearch
+                placeholder={'Select food category'}
+                defaultActiveFirstOption={false}
+                showArrow={false}
+                onSearch={handleSearch}
+                filterOption={false}
+                notFoundContent={null}
+                options={(foodCategoryList || []).map((item) => ({
+                  value: item.id,
+                  label: item.name,
+                }))}
+              />
+            </Form.Item>
             <Form.Item name="slug" label="Slug" rules={[{ required: true }]}>
               <Input placeholder="Input slug" />
             </Form.Item>
@@ -368,6 +407,7 @@ const mapDispatchToProps = (dispatch) => ({
   removeIngredient: (payload) => dispatch({ type: 'dish/removeIngredient', payload }),
   updateIngredient: (payload) => dispatch({ type: 'dish/updateIngredient', payload }),
   addIngredient: (payload) => dispatch({ type: 'dish/addIngredient', payload }),
+  saveParams: (payload) => dispatch({ type: 'foodCategory/saveParams', payload }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateForm);

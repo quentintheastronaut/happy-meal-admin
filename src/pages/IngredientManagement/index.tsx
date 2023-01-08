@@ -106,6 +106,7 @@ const IngredientManagement: React.FC = (props: any) => {
       centered: true,
       title: values.name,
       maskClosable: true,
+      icon: null,
       content: (
         <UpdateForm isUpdate={true} modal={incompatibleModal} form={updateFrom} values={values} />
       ),
@@ -130,6 +131,7 @@ const IngredientManagement: React.FC = (props: any) => {
       width: 1000,
       centered: true,
       title: values.name,
+      icon: null,
       maskClosable: true,
       content: <UpdateForm isUpdate={false} modal={incompatibleModal} form={createFrom} />,
       okText: 'Create',
