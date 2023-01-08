@@ -18,7 +18,7 @@ export default {
     params: {
       page: 1,
       limit: 10,
-      order: ORDER.ASC,
+      order: ORDER.DESC,
       search: null,
     },
     pageCount: 0,
