@@ -155,6 +155,7 @@ const IngredientCategoryManagement: React.FC = (props: any) => {
     {
       title: 'Last updated',
       dataIndex: 'updatedAt',
+      defaultSortOrder: 'descend',
       sorter: true,
       render: (updatedAt) => moment(updatedAt).format(timeFormat.FULL_TIME),
     },
