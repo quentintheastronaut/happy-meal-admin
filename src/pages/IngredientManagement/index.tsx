@@ -115,6 +115,7 @@ const IngredientManagement: React.FC = (props: any) => {
           const payload = {
             ...items,
             id: values.id,
+            ingredientCategoryId: items.ingredientCategoryId.toString(),
           };
           await updateIngredient(payload);
           updateFrom.resetFields();
@@ -137,6 +138,7 @@ const IngredientManagement: React.FC = (props: any) => {
           const payload = {
             ...items,
             id: values.id,
+            ingredientCategoryId: items.ingredientCategoryId.toString(),
           };
           await createIngredient(payload);
           createFrom.resetFields();

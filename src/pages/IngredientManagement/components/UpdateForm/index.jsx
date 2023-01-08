@@ -16,6 +16,7 @@ import {
   InputNumber,
   notification,
   Row,
+  Select,
   Spin,
   Table,
   Tooltip,
@@ -29,6 +30,8 @@ import styles from './index.less';
 import UpdateIncompatibleForm from '../UpdateIncompatibleForm';
 import { connect } from 'umi';
 import mapStateToProps from './mapStateToProps';
+import { useDebounceValue } from '@ant-design/pro-components';
+import { ORDER } from '@/ultis/constants';
 
 const { Title } = Typography;
 
@@ -45,6 +48,10 @@ const UpdateForm = (props) => {
     removeIncompatible,
     updateIncompatible,
     addIncompatible,
+    ingredientCategoryList,
+    loadingFetchIngredientCategory,
+    saveParams,
+    params,
   } = props;
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
@@ -52,10 +59,14 @@ const UpdateForm = (props) => {
   const [createFrom] = Form.useForm();
   const [updateFrom] = Form.useForm();
 
+  const [value, setValue] = useState();
+  const debouncedValue = useDebounceValue(value, 500);
+
   useEffect(() => {
     form.setFieldsValue({
       ...values,
       imageUrl: imageUrl || values?.imageUrl,
+      ingredientCategoryId: values?.ingredientCategory?.id || null,
     });
   }, [values, imageUrl]);
 
@@ -175,8 +186,6 @@ const UpdateForm = (props) => {
       okText: 'Update',
       onOk: (close) => {
         return updateFrom.validateFields().then(async (items) => {
-          console.log(items);
-          console.log(record);
           const payload = {
             note: items.note,
             firstIngredient: values.id.toString(),
@@ -242,6 +251,21 @@ const UpdateForm = (props) => {
       },
     },
   ];
+
+  useEffect(() => {
+    saveParams({
+      ...params,
+      order: ORDER.DESC,
+      limit: 50,
+      search: debouncedValue,
+    });
+  }, [debouncedValue]);
+
+  const handleSearch = (newValue) => {
+    if (newValue) {
+      setValue(newValue);
+    }
+  };
 
   return (
     <Form
@@ -310,6 +334,21 @@ const UpdateForm = (props) => {
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item name="ingredientCategoryId" label="Ingredient" rules={[{ required: true }]}>
+            <Select
+              showSearch
+              placeholder={'Select ingredient category'}
+              defaultActiveFirstOption={false}
+              showArrow={false}
+              onSearch={handleSearch}
+              filterOption={false}
+              notFoundContent={null}
+              options={(ingredientCategoryList || []).map((item) => ({
+                value: item.id,
+                label: item.name,
+              }))}
+            />
+          </Form.Item>
         </Col>
       </Row>
 
@@ -343,6 +382,7 @@ const mapDispatchToProps = (dispatch) => ({
   removeIncompatible: (payload) => dispatch({ type: 'ingredient/removeIncompatible', payload }),
   updateIncompatible: (payload) => dispatch({ type: 'ingredient/updateIncompatible', payload }),
   addIncompatible: (payload) => dispatch({ type: 'ingredient/addIncompatible', payload }),
+  saveParams: (payload) => dispatch({ type: 'ingredientCategory/saveParams', payload }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateForm);
