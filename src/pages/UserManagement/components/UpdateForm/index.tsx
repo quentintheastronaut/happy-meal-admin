@@ -113,7 +113,7 @@ const UpdateForm: React.FC = (props: any) => {
             }}
             label="Image"
           >
-            <Avatar size={222} src={`${imageUrl || values?.imageUrl}`} />
+            <Avatar size={222} src={`${imageUrl || values?.account?.imageUrl}`} />
             <Upload {...uploadProps}>
               <Button icon={<UploadOutlined />} loading={loading}>
                 Upload
